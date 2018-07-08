@@ -23,47 +23,49 @@ import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 @EnableElasticsearchRepositories("com.ostrovskiy.media.repository.search")
-@EnableMongoRepositories(basePackages = "com.ostrovskiy.media.repository", includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, value = MongoRepository.class))
+@EnableMongoRepositories(basePackages = "com.ostrovskiy.media.repository",
+    includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, value = MongoRepository.class))
 @Profile("!" + JHipsterConstants.SPRING_PROFILE_CLOUD)
 @Import(value = MongoAutoConfiguration.class)
 @EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
 public class DatabaseConfiguration {
 
-    private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
-    @Bean
-    public ValidatingMongoEventListener validatingMongoEventListener() {
-        return new ValidatingMongoEventListener(validator());
-    }
+  private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
-    @Bean
-    public LocalValidatorFactoryBean validator() {
-        return new LocalValidatorFactoryBean();
-    }
+  @Bean
+  public ValidatingMongoEventListener validatingMongoEventListener() {
+    return new ValidatingMongoEventListener(validator());
+  }
 
-    @Bean
-    public MongoCustomConversions customConversions() {
-        List<Converter<?, ?>> converters = new ArrayList<>();
-        converters.add(DateToZonedDateTimeConverter.INSTANCE);
-        converters.add(ZonedDateTimeToDateConverter.INSTANCE);
-        return new MongoCustomConversions(converters);
-    }
+  @Bean
+  public LocalValidatorFactoryBean validator() {
+    return new LocalValidatorFactoryBean();
+  }
 
-    @Bean
-    public Mongobee mongobee(MongoClient mongoClient, MongoTemplate mongoTemplate, MongoProperties mongoProperties) {
-        log.debug("Configuring Mongobee");
-        Mongobee mongobee = new Mongobee(mongoClient);
-        mongobee.setDbName(mongoProperties.getMongoClientDatabase());
-        mongobee.setMongoTemplate(mongoTemplate);
-        // package to scan for migrations
-        mongobee.setChangeLogsScanPackage("com.ostrovskiy.media.config.dbmigrations");
-        mongobee.setEnabled(true);
-        return mongobee;
-    }
+  @Bean
+  public MongoCustomConversions customConversions() {
+    List<Converter<?, ?>> converters = new ArrayList<>();
+    converters.add(DateToZonedDateTimeConverter.INSTANCE);
+    converters.add(ZonedDateTimeToDateConverter.INSTANCE);
+    return new MongoCustomConversions(converters);
+  }
+
+  @Bean
+  public Mongobee mongobee(MongoClient mongoClient, MongoTemplate mongoTemplate,
+      MongoProperties mongoProperties) {
+    log.debug("Configuring Mongobee");
+    Mongobee mongobee = new Mongobee(mongoClient);
+    mongobee.setDbName(mongoProperties.getMongoClientDatabase());
+    mongobee.setMongoTemplate(mongoTemplate);
+    // package to scan for migrations
+    mongobee.setChangeLogsScanPackage("com.ostrovskiy.media.config.dbmigrations");
+    mongobee.setEnabled(true);
+    return mongobee;
+  }
 }

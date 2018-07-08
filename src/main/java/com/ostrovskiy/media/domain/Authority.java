@@ -12,44 +12,42 @@ import java.io.Serializable;
 @Document(collection = "jhi_authority")
 public class Authority implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @NotNull
-    @Size(max = 50)
-    @Id
-    private String name;
+  @NotNull
+  @Size(max = 50)
+  @Id
+  private String name;
 
-    public String getName() {
-        return name;
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    Authority authority = (Authority) o;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    return !(name != null ? !name.equals(authority.name) : authority.name != null);
+  }
 
-        Authority authority = (Authority) o;
+  @Override
+  public int hashCode() {
+    return name != null ? name.hashCode() : 0;
+  }
 
-        return !(name != null ? !name.equals(authority.name) : authority.name != null);
-    }
-
-    @Override
-    public int hashCode() {
-        return name != null ? name.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Authority{" +
-            "name='" + name + '\'' +
-            "}";
-    }
+  @Override
+  public String toString() {
+    return "Authority{" + "name='" + name + '\'' + "}";
+  }
 }

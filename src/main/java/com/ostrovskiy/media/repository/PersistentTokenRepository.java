@@ -4,7 +4,6 @@ import com.ostrovskiy.media.domain.PersistentToken;
 import com.ostrovskiy.media.domain.User;
 import java.time.LocalDate;
 import org.springframework.data.mongodb.repository.MongoRepository;
-
 import java.util.List;
 
 /**
@@ -12,8 +11,8 @@ import java.util.List;
  */
 public interface PersistentTokenRepository extends MongoRepository<PersistentToken, String> {
 
-    List<PersistentToken> findByUser(User user);
+  List<PersistentToken> findByUser(User user);
 
-    List<PersistentToken> findByTokenDateBefore(LocalDate localDate);
+  List<PersistentToken> findByTokenDateBefore(LocalDate localDate);
 
 }

@@ -1,7 +1,6 @@
 package com.ostrovskiy.media.repository;
 
 import com.ostrovskiy.media.domain.Authority;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
