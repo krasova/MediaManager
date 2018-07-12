@@ -11,7 +11,7 @@ export const ACTION_TYPES = {
   SEARCH_PICTURES: 'picture/SEARCH_PICTURES',
   FETCH_PICTURE_LIST: 'picture/FETCH_PICTURE_LIST',
   FETCH_PICTURE: 'picture/FETCH_PICTURE',
-  CREATE_PICTURE: 'picture/CREATE_PICTURE',
+  UPLOAD_PICTURE: 'picture/UPLOAD_PICTURE',
   UPDATE_PICTURE: 'picture/UPDATE_PICTURE',
   DELETE_PICTURE: 'picture/DELETE_PICTURE',
   RESET: 'picture/RESET'
@@ -42,7 +42,7 @@ export default (state: PictureState = initialState, action): PictureState => {
         updateSuccess: false,
         loading: true
       };
-    case REQUEST(ACTION_TYPES.CREATE_PICTURE):
+    case REQUEST(ACTION_TYPES.UPLOAD_PICTURE):
     case REQUEST(ACTION_TYPES.UPDATE_PICTURE):
     case REQUEST(ACTION_TYPES.DELETE_PICTURE):
       return {
@@ -54,7 +54,7 @@ export default (state: PictureState = initialState, action): PictureState => {
     case FAILURE(ACTION_TYPES.SEARCH_PICTURES):
     case FAILURE(ACTION_TYPES.FETCH_PICTURE_LIST):
     case FAILURE(ACTION_TYPES.FETCH_PICTURE):
-    case FAILURE(ACTION_TYPES.CREATE_PICTURE):
+    case FAILURE(ACTION_TYPES.UPLOAD_PICTURE):
     case FAILURE(ACTION_TYPES.UPDATE_PICTURE):
     case FAILURE(ACTION_TYPES.DELETE_PICTURE):
       return {
@@ -83,7 +83,7 @@ export default (state: PictureState = initialState, action): PictureState => {
         loading: false,
         entity: action.payload.data
       };
-    case SUCCESS(ACTION_TYPES.CREATE_PICTURE):
+    case SUCCESS(ACTION_TYPES.UPLOAD_PICTURE):
     case SUCCESS(ACTION_TYPES.UPDATE_PICTURE):
       return {
         ...state,
@@ -135,7 +135,7 @@ export const getEntity: ICrudGetAction<IPicture> = id => {
 
 export const createEntity: ICrudPutAction<IPicture> = entity => async dispatch => {
   const result = await dispatch({
-    type: ACTION_TYPES.CREATE_PICTURE,
+    type: ACTION_TYPES.UPLOAD_PICTURE,
     payload: axios.post(apiUrl, cleanEntity(entity))
   });
   dispatch(getEntities());

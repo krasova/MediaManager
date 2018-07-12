@@ -80,8 +80,8 @@ export class Picture extends React.Component<IPictureProps, IPictureState> {
       <div>
         <h2 id="picture-heading">
           Pictures
-          <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-            <FontAwesomeIcon icon="plus" />&nbsp; Create new Picture
+          <Link to={`${match.url}/upload`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+            <FontAwesomeIcon icon="plus" />&nbsp; Upload pictures from folder
           </Link>
         </h2>
         <Row>
