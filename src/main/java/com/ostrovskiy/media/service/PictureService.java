@@ -42,11 +42,13 @@ public interface PictureService {
    */
   void delete(String id);
 
+  void deleteAll();
+
   /**
    * Search for the picture corresponding to the query.
    *
    * @param query the query of the search
-   * 
+   *
    * @param pageable the pagination information
    * @return the list of entities
    */

@@ -81,7 +81,18 @@ public class PictureServiceImpl implements PictureService {
     pictureSearchRepository.deleteById(id);
   }
 
-  /**
+    /**
+     * Delete all pictures.
+     */
+    @Override
+    public void deleteAll() {
+        log.debug("Request to delete ALL Pictures");
+        pictureRepository.deleteAll();
+        pictureSearchRepository.deleteAll();
+    }
+
+
+    /**
    * Search for the picture corresponding to the query.
    *
    * @param query the query of the search

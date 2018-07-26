@@ -50,11 +50,12 @@ public class FolderResource {
     public ResponseEntity<Folder> createFolder(@Valid @RequestBody Folder folder) throws URISyntaxException {
         log.debug("REST request to save Folder : {}", folder);
         if (folder.getId() != null) {
-            throw new BadRequestAlertException("A new folder cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new folder cannot already have an ID", ENTITY_NAME, "id exists");
         }
+        folderService.savePicturesFromFolder(folder.getPath());
         Folder result = folderService.save(folder);
         return ResponseEntity.created(new URI("/api/folders/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId()))
             .body(result);
     }
 
@@ -76,7 +77,7 @@ public class FolderResource {
         }
         Folder result = folderService.save(folder);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, folder.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, folder.getId()))
             .body(result);
     }
 

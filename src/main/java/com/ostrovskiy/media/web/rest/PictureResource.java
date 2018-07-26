@@ -59,7 +59,7 @@ public class PictureResource {
     }
     Picture result = pictureService.save(picture);
     return ResponseEntity.created(new URI("/api/pictures/" + result.getId()))
-        .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId()))
         .body(result);
   }
 
@@ -82,7 +82,7 @@ public class PictureResource {
     }
     Picture result = pictureService.save(picture);
     return ResponseEntity.ok()
-        .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, picture.getId().toString()))
+        .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, picture.getId()))
         .body(result);
   }
 
@@ -100,6 +100,20 @@ public class PictureResource {
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/pictures");
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
   }
+
+
+    /**
+     * DELETE /pictures/ : delete all pictures.
+     *
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/pictures")
+    @Timed
+    public ResponseEntity<Void>  deleteAllPictures() {
+        log.debug("REST request to delete all Pictures : {}");
+        pictureService.deleteAll();
+        return ResponseEntity.ok().build();
+    }
 
   /**
    * GET /pictures/:id : get the "id" picture.

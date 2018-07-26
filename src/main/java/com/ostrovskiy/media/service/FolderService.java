@@ -45,8 +45,17 @@ public interface FolderService {
      * Search for the folder corresponding to the query.
      *
      * @param query the query of the search
-     * 
+     *
      * @return the list of entities
      */
+
     List<Folder> search(String query);
+
+
+    /**
+     * Save pictures from folder.
+     *
+     * @param path path to the folder
+     */
+    void savePicturesFromFolder(String path);
 }
