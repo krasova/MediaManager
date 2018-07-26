@@ -8,19 +8,19 @@ import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipste
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { getEntity, updateEntity, createEntity, reset } from './picture.reducer';
-import { IPicture } from 'app/shared/model/picture.model';
+import { getEntity, uploadEntity, reset } from './folder.reducer';
+import { IFolder } from 'app/shared/model/folder.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
 import { keysToValues } from 'app/shared/util/entity-utils';
 
-export interface IUploadProps extends StateProps, DispatchProps, RouteComponentProps<{ id: number }> {}
+export interface IFolderUploadProps extends StateProps, DispatchProps, RouteComponentProps<{ id: number }> {}
 
-export interface IUploadState {
+export interface IFolderUploadState {
   isNew: boolean;
 }
 
-export class Upload extends React.Component<IUploadProps, IUploadState> {
+export class FolderUpload extends React.Component<IFolderUploadProps, IFolderUploadState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,35 +38,35 @@ export class Upload extends React.Component<IUploadProps, IUploadState> {
 
   saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
-      const { pictureEntity } = this.props;
+      const { folderEntity } = this.props;
       const entity = {
-        ...pictureEntity,
+        ...folderEntity,
         ...values
       };
 
       if (this.state.isNew) {
-        this.props.createEntity(entity);
+        this.props.uploadEntity(entity);
       } else {
-        this.props.updateEntity(entity);
+        this.props.uploadEntity(entity);
       }
       this.handleClose();
     }
   };
 
   handleClose = () => {
-    this.props.history.push('/entity/picture');
+    this.props.history.push('/entity/folder');
   };
 
   render() {
     const isInvalid = false;
-    const { pictureEntity, loading, updating } = this.props;
+    const { folderEntity, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
       <div>
         <Row className="justify-content-center">
           <Col md="8">
-            <h2 id="mediaManagerApp.picture.home.createOrEditLabel">Create or edit a Picture</h2>
+            <h2 id="mediaManagerApp.folder.home.createOrEditLabel">Create or edit a Folder</h2>
           </Col>
         </Row>
         <Row className="justify-content-center">
@@ -74,32 +74,19 @@ export class Upload extends React.Component<IUploadProps, IUploadState> {
             {loading ? (
               <p>Loading...</p>
             ) : (
-              <AvForm model={isNew ? {} : pictureEntity} onSubmit={this.saveEntity}>
+              <AvForm model={isNew ? {} : folderEntity} onSubmit={this.saveEntity}>
                 {!isNew ? (
                   <AvGroup>
                     <Label for="id">ID</Label>
-                    <AvInput id="picture-id" type="text" className="form-control" name="id" required readOnly />
+                    <AvInput id="folder-id" type="text" className="form-control" name="id" required readOnly />
                   </AvGroup>
                 ) : null}
-                <AvGroup>
-                  <Label id="nameLabel" for="name">
-                    Name
-                  </Label>
-                  <AvField
-                    id="picture-name"
-                    type="text"
-                    name="name"
-                    validate={{
-                      required: { value: true, errorMessage: 'This field is required.' }
-                    }}
-                  />
-                </AvGroup>
                 <AvGroup>
                   <Label id="pathLabel" for="path">
                     Path
                   </Label>
                   <AvField
-                    id="picture-path"
+                    id="folder-path"
                     type="text"
                     name="path"
                     validate={{
@@ -107,7 +94,7 @@ export class Upload extends React.Component<IUploadProps, IUploadState> {
                     }}
                   />
                 </AvGroup>
-                <Button tag={Link} id="cancel-save" to="/entity/picture" replace color="info">
+                <Button tag={Link} id="cancel-save" to="/entity/folder" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
                   <span className="d-none d-md-inline">Back</span>
                 </Button>
@@ -125,15 +112,14 @@ export class Upload extends React.Component<IUploadProps, IUploadState> {
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  pictureEntity: storeState.picture.entity,
-  loading: storeState.picture.loading,
-  updating: storeState.picture.updating
+  folderEntity: storeState.folder.entity,
+  loading: storeState.folder.loading,
+  updating: storeState.folder.updating
 });
 
 const mapDispatchToProps = {
   getEntity,
-  updateEntity,
-  createEntity,
+  uploadEntity,
   reset
 };
 
@@ -143,4 +129,4 @@ type DispatchProps = typeof mapDispatchToProps;
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Upload);
+)(FolderUpload);

@@ -20,6 +20,7 @@ import picture, {
 import movie, {
   MovieState
 } from 'app/entities/movie/movie.reducer';
+import folder, { FolderState } from 'app/entities/folder/folder.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -35,6 +36,7 @@ export interface IRootState {
   readonly sessions: SessionsState;
   readonly picture: PictureState;
   readonly movie: MovieState;
+  readonly folder: FolderState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -52,6 +54,7 @@ const rootReducer = combineReducers<IRootState>({
   sessions,
   picture,
   movie,
+  folder,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar
 });

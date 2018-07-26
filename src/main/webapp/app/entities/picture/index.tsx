@@ -7,12 +7,10 @@ import Picture from './picture';
 import PictureDetail from './picture-detail';
 import PictureUpdate from './picture-update';
 import PictureDeleteDialog from './picture-delete-dialog';
-import Upload from './upload';
 
 const Routes = ({ match }) => (
   <>
     <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/upload`} component={Upload} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={PictureUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={PictureDetail} />
       <ErrorBoundaryRoute path={match.url} component={Picture} />
