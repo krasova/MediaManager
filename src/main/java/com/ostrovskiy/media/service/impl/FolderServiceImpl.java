@@ -8,6 +8,7 @@ import com.ostrovskiy.media.repository.FolderRepository;
 import com.ostrovskiy.media.repository.search.FolderSearchRepository;
 import com.ostrovskiy.media.service.FolderService;
 import com.ostrovskiy.media.service.PictureService;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -120,7 +121,8 @@ public class FolderServiceImpl implements FolderService {
                 .forEach(file -> {
                         Picture picture = new Picture()
                             .name(file.getFileName().toString())
-                            .path(file.getRoot().toAbsolutePath().toString());
+                            .path(file.getRoot().toAbsolutePath().toString())
+                            .setSize(Long.toString(new File(file.toString()).length()));
                         pictureService.save(picture);
                     }
                 );
