@@ -163,8 +163,6 @@ public class FolderServiceImpl implements FolderService {
                                 if (hits.score(i) < 10 && !file.toAbsolutePath().toString().equals(fileName)){
                                     picture.setMd5(hits.score(i) + ": \t" + fileName);
                                 }
-                                picture.setMd5(hits.score(i) + ": \t" + fileName);
-
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
