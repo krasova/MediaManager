@@ -80,9 +80,6 @@ export class Picture extends React.Component<IPictureProps, IPictureState> {
       <div>
         <h2 id="picture-heading">
           Pictures
-          <Link to={`${match.url}/upload`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-            <FontAwesomeIcon icon="plus" />&nbsp; Upload pictures from folder
-          </Link>
         </h2>
         <Row>
           <Col sm="12">
@@ -114,6 +111,12 @@ export class Picture extends React.Component<IPictureProps, IPictureState> {
                 <th className="hand" onClick={this.sort('path')}>
                   Path <FontAwesomeIcon icon="sort" />
                 </th>
+                <th className="hand" onClick={this.sort('size')}>
+                  Size <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={this.sort('md5')}>
+                  MD5 <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -127,6 +130,8 @@ export class Picture extends React.Component<IPictureProps, IPictureState> {
                   </td>
                   <td>{picture.name}</td>
                   <td>{picture.path}</td>
+                  <td>{picture.size}</td>
+                  <td>{picture.md5}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${picture.id}`} color="info" size="sm">

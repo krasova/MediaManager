@@ -8,6 +8,8 @@ import com.ostrovskiy.media.repository.FolderRepository;
 import com.ostrovskiy.media.repository.search.FolderSearchRepository;
 import com.ostrovskiy.media.service.FolderService;
 import com.ostrovskiy.media.service.PictureService;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +20,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import javax.imageio.ImageIO;
+import net.semanticmetadata.lire.builders.DocumentBuilder;
+import net.semanticmetadata.lire.imageanalysis.features.global.AutoColorCorrelogram;
+import net.semanticmetadata.lire.imageanalysis.features.global.CEDD;
+import net.semanticmetadata.lire.indexers.parallel.ParallelIndexer;
+import net.semanticmetadata.lire.searchers.GenericFastImageSearcher;
+import net.semanticmetadata.lire.searchers.ImageSearchHits;
+import net.semanticmetadata.lire.searchers.ImageSearcher;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -115,14 +128,47 @@ public class FolderServiceImpl implements FolderService {
      */
     @Override
     public void savePicturesFromFolder(String path) {
+        int numOfThreads = 6; // the number of thread used.
+        ParallelIndexer indexer = new ParallelIndexer(numOfThreads, "index", path);
+        indexer.addExtractor(CEDD.class);
+        indexer.addExtractor(AutoColorCorrelogram.class);
+        indexer.run();
+        log.debug("Finished indexing.");
         try (Stream<Path> paths = Files.walk(Paths.get(path))) {
             paths
                 .filter(Files::isRegularFile)
                 .forEach(file -> {
                         Picture picture = new Picture()
                             .name(file.getFileName().toString())
-                            .path(file.getRoot().toAbsolutePath().toString())
+                            .path(file.toAbsolutePath().toString())
                             .setSize(Long.toString(new File(file.toString()).length()));
+                        // use ParallelIndexer to index all photos from args[0] into "index" ... use 6 threads (actually 7 with the I/O thread).
+                        IndexReader ir;
+                        try {
+                            ir = DirectoryReader.open(FSDirectory.open(Paths.get("index")));
+
+                            ImageSearcher searcher = new GenericFastImageSearcher(30, CEDD.class);
+
+                            BufferedImage img = ImageIO.read(file.toFile());
+                            // searching with a image file ...
+                            ImageSearchHits hits = searcher.search(img, ir);
+                            // searching with a Lucene document instance ...
+//        ImageSearchHits hits = searcher.search(ir.document(0), ir);
+                            picture.setMd5("no duplicates");
+                            for (int i = 0; i < hits.length(); i++) {
+                                String fileName = ir.document(hits.documentID(i)).getValues(
+                                    DocumentBuilder.FIELD_NAME_IDENTIFIER)[0];
+
+                                log.debug(hits.score(i) + ": \t" + fileName);
+                                if (hits.score(i) < 10 && !file.toAbsolutePath().toString().equals(fileName)){
+                                    picture.setMd5(hits.score(i) + ": \t" + fileName);
+                                }
+                                picture.setMd5(hits.score(i) + ": \t" + fileName);
+
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         pictureService.save(picture);
                     }
                 );
