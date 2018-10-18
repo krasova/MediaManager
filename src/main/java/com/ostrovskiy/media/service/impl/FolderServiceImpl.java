@@ -9,7 +9,6 @@ import com.ostrovskiy.media.repository.search.FolderSearchRepository;
 import com.ostrovskiy.media.service.FolderService;
 import com.ostrovskiy.media.service.PictureService;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 import net.semanticmetadata.lire.builders.DocumentBuilder;
 import net.semanticmetadata.lire.imageanalysis.features.global.AutoColorCorrelogram;
@@ -137,6 +137,7 @@ public class FolderServiceImpl implements FolderService {
         try (Stream<Path> paths = Files.walk(Paths.get(path))) {
             paths
                 .filter(Files::isRegularFile)
+                .filter(this::isImage)
                 .forEach(file -> {
                         Picture picture = new Picture()
                             .name(file.getFileName().toString())
@@ -154,14 +155,15 @@ public class FolderServiceImpl implements FolderService {
                             ImageSearchHits hits = searcher.search(img, ir);
                             // searching with a Lucene document instance ...
 //        ImageSearchHits hits = searcher.search(ir.document(0), ir);
-                            picture.setMd5("no duplicates");
+                            picture.setDuplicate("no duplicates");
                             for (int i = 0; i < hits.length(); i++) {
                                 String fileName = ir.document(hits.documentID(i)).getValues(
                                     DocumentBuilder.FIELD_NAME_IDENTIFIER)[0];
 
                                 log.debug(hits.score(i) + ": \t" + fileName);
-                                if (hits.score(i) < 10 && !file.toAbsolutePath().toString().equals(fileName)){
-                                    picture.setMd5(hits.score(i) + ": \t" + fileName);
+                                if (hits.score(i) < 10 && !file.toAbsolutePath().toString()
+                                    .equals(fileName)) {
+                                    picture.setDuplicate(hits.score(i) + ": \t" + fileName);
                                 }
                             }
                         } catch (IOException e) {
@@ -173,5 +175,11 @@ public class FolderServiceImpl implements FolderService {
         } catch (IOException e) {
             log.error("Something happens when we were saving pictures", e.getMessage());
         }
+    }
+
+    private boolean isImage(Path path) {
+        String mimetype = new MimetypesFileTypeMap().getContentType(path.toFile());
+        String type = mimetype.split("/")[0];
+        return type.equals("image");
     }
 }

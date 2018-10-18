@@ -36,6 +36,7 @@ export class PictureDetail extends React.Component<IPictureDetailProps> {
               <span id="path">Path</span>
             </dt>
             <dd>{pictureEntity.path}</dd>
+            <img src={'file:///' + pictureEntity.path} height="420" width="420"/>
           </dl>
           <Button tag={Link} to="/entity/picture" replace color="info">
             <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

@@ -102,9 +102,6 @@ export class Picture extends React.Component<IPictureProps, IPictureState> {
           <Table responsive>
             <thead>
               <tr>
-                <th className="hand" onClick={this.sort('id')}>
-                  ID <FontAwesomeIcon icon="sort" />
-                </th>
                 <th className="hand" onClick={this.sort('name')}>
                   Name <FontAwesomeIcon icon="sort" />
                 </th>
@@ -114,8 +111,8 @@ export class Picture extends React.Component<IPictureProps, IPictureState> {
                 <th className="hand" onClick={this.sort('size')}>
                   Size <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={this.sort('md5')}>
-                  MD5 <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={this.sort('duplicate')}>
+                  Duplicate <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -125,13 +122,12 @@ export class Picture extends React.Component<IPictureProps, IPictureState> {
                 <tr key={`entity-${i}`}>
                   <td>
                     <Button tag={Link} to={`${match.url}/${picture.id}`} color="link" size="sm">
-                      {picture.id}
+                    {picture.name}
                     </Button>
                   </td>
-                  <td>{picture.name}</td>
                   <td>{picture.path}</td>
                   <td>{picture.size}</td>
-                  <td>{picture.md5}</td>
+                  <td>{picture.duplicate}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${picture.id}`} color="info" size="sm">

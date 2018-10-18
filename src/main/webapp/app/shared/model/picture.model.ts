@@ -3,7 +3,7 @@ export interface IPicture {
   name?: string;
   path?: string;
   size?: string;
-  md5?: string;
+  duplicate?: string;
 }
 
 export const defaultValue: Readonly<IPicture> = {};

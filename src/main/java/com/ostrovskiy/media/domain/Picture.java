@@ -32,8 +32,8 @@ public class Picture implements Serializable {
     private String size;
 
     @NotNull
-    @Field("md5")
-    private String md5;
+    @Field("dup")
+    private String duplicate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -72,12 +72,12 @@ public class Picture implements Serializable {
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not
     // remove
 
-    public String getMd5() {
-        return md5;
+    public String getDuplicate() {
+        return duplicate;
     }
 
-    public Picture setMd5(String md5) {
-        this.md5 = md5;
+    public Picture setDuplicate(String duplicate) {
+        this.duplicate = duplicate;
         return this;
     }
 

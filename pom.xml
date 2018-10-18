@@ -285,6 +285,14 @@
             <artifactId>spring-security-data</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
+
+        <dependency>
+            <groupId>net.semanticmetadata</groupId>
+            <artifactId>lire</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lire.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>
