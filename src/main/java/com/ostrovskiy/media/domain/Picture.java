@@ -3,6 +3,7 @@ package com.ostrovskiy.media.domain;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

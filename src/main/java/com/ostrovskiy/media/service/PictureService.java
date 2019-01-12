@@ -1,7 +1,7 @@
 package com.ostrovskiy.media.service;
 
 import com.ostrovskiy.media.domain.Picture;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
