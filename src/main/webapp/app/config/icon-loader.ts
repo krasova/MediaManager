@@ -24,8 +24,6 @@ import { faAsterisk } from '@fortawesome/free-solid-svg-icons/faAsterisk';
 import { faFlag } from '@fortawesome/free-solid-svg-icons/faFlag';
 import { faBell } from '@fortawesome/free-solid-svg-icons/faBell';
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
-import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
