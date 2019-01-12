@@ -4,8 +4,6 @@ import { UncontrolledDropdown, DropdownToggle, DropdownMenu, NavItem, NavLink, N
 import { NavLink as Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import appConfig from 'app/config/constants';
-
 export const NavDropdown = props => (
   <UncontrolledDropdown nav inNavbar id={props.id}>
     <DropdownToggle nav caret className="d-flex align-items-center">
@@ -18,21 +16,13 @@ export const NavDropdown = props => (
   </UncontrolledDropdown>
 );
 
-export const BrandIcon = props => (
-  <div {...props} className="brand-icon">
-    <img src="content/images/logo-jhipster-react.svg" alt="Logo" />
-  </div>
-);
-
-export const Brand = props => (
+export const Brand = () => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
-    <BrandIcon />
     <span className="brand-title">MediaManager</span>
-    <span className="navbar-version">{appConfig.VERSION}</span>
   </NavbarBrand>
 );
 
-export const Home = props => (
+export const Home = () => (
   <NavItem>
     <NavLink tag={Link} to="/" className="d-flex align-items-center">
       <FontAwesomeIcon icon="home" />

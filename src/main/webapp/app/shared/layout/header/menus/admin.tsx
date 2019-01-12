@@ -7,30 +7,29 @@ import { NavDropdown } from '../header-components';
 const adminMenuItems = (
   <>
     <DropdownItem tag={Link} to="/admin/user-management">
-      <FontAwesomeIcon icon="user" />{' '}
+      <FontAwesomeIcon icon="user" /> User management
     </DropdownItem>
     <DropdownItem tag={Link} to="/admin/metrics">
-      <FontAwesomeIcon icon="tachometer-alt" />{' '}
+      <FontAwesomeIcon icon="tachometer-alt" /> Metrics
     </DropdownItem>
     <DropdownItem tag={Link} to="/admin/health">
-      <FontAwesomeIcon icon="heart" />{' '}
+      <FontAwesomeIcon icon="heart" /> Health
     </DropdownItem>
     <DropdownItem tag={Link} to="/admin/configuration">
-      <FontAwesomeIcon icon="list" />{' '}
+      <FontAwesomeIcon icon="list" /> Configuration
     </DropdownItem>
     <DropdownItem tag={Link} to="/admin/audits">
-      <FontAwesomeIcon icon="bell" />{' '}
+      <FontAwesomeIcon icon="bell" /> Audits
     </DropdownItem>
-    {/* jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here */}
     <DropdownItem tag={Link} to="/admin/logs">
-      <FontAwesomeIcon icon="tasks" />{' '}
+      <FontAwesomeIcon icon="tasks" /> Logs
     </DropdownItem>
   </>
 );
 
 const swaggerItem = (
   <DropdownItem tag={Link} to="/admin/docs">
-    <FontAwesomeIcon icon="book" />
+    <FontAwesomeIcon icon="book" /> API
   </DropdownItem>
 );
 

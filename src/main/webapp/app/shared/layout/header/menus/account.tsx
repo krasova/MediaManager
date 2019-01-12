@@ -8,16 +8,16 @@ import { NavDropdown } from '../header-components';
 const accountMenuItemsAuthenticated = (
   <>
     <DropdownItem tag={Link} to="/account/settings">
-      <FontAwesomeIcon icon="wrench" />{' '}
+      <FontAwesomeIcon icon="wrench" /> Settings
     </DropdownItem>
     <DropdownItem tag={Link} to="/account/password">
-      <FontAwesomeIcon icon="clock" />{' '}
+      <FontAwesomeIcon icon="clock" /> Password
     </DropdownItem>
     <DropdownItem tag={Link} to="/account/sessions">
-      <FontAwesomeIcon icon="cloud" />{' '}
+      <FontAwesomeIcon icon="cloud" /> Sessions
     </DropdownItem>
     <DropdownItem tag={Link} to="/logout">
-      <FontAwesomeIcon icon="sign-out-alt" />{' '}
+      <FontAwesomeIcon icon="sign-out-alt" /> Logout
     </DropdownItem>
   </>
 );
@@ -25,10 +25,10 @@ const accountMenuItemsAuthenticated = (
 const accountMenuItems = (
   <>
     <DropdownItem id="login-item" tag={Link} to="/login">
-      <FontAwesomeIcon icon="sign-in-alt" />{' '}
+      <FontAwesomeIcon icon="sign-in-alt" /> Login
     </DropdownItem>
     <DropdownItem tag={Link} to="/register">
-      <FontAwesomeIcon icon="sign-in-alt" />{' '}
+      <FontAwesomeIcon icon="sign-in-alt" /> Register
     </DropdownItem>
   </>
 );
