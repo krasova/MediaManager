@@ -1,5 +1,3 @@
-import './home.css';
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -46,9 +44,6 @@ export class Home extends React.Component<IHomeProp> {
               </Alert>
             </div>
           )}
-        </Col>
-        <Col md="3" className="pad">
-          <span className="hipster rounded" />
         </Col>
       </Row>
     );
