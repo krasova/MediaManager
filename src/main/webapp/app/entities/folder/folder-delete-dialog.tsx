@@ -2,14 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import { ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IFolder } from 'app/shared/model/folder.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './folder.reducer';
 
-export interface IFolderDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: number }> {}
+export interface IFolderDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export class FolderDeleteDialog extends React.Component<IFolderDeleteDialogProps> {
   componentDidMount() {

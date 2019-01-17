@@ -134,47 +134,47 @@ public class FolderServiceImpl implements FolderService {
         indexer.addExtractor(AutoColorCorrelogram.class);
         indexer.run();
         log.debug("Finished indexing.");
-        try (Stream<Path> paths = Files.walk(Paths.get(path))) {
-            paths
-                .filter(Files::isRegularFile)
-                .filter(this::isImage)
-                .forEach(file -> {
-                        Picture picture = new Picture()
-                            .name(file.getFileName().toString())
-                            .path(file.toAbsolutePath().toString())
-                            .setSize(Long.toString(new File(file.toString()).length()));
-                        // use ParallelIndexer to index all photos from args[0] into "index" ... use 6 threads (actually 7 with the I/O thread).
-                        IndexReader ir;
-                        try {
-                            ir = DirectoryReader.open(FSDirectory.open(Paths.get("index")));
-
-                            ImageSearcher searcher = new GenericFastImageSearcher(30, CEDD.class);
-
-                            BufferedImage img = ImageIO.read(file.toFile());
-                            // searching with a image file ...
-                            ImageSearchHits hits = searcher.search(img, ir);
-                            // searching with a Lucene document instance ...
-//        ImageSearchHits hits = searcher.search(ir.document(0), ir);
-                            picture.setDuplicate("no duplicates");
-                            for (int i = 0; i < hits.length(); i++) {
-                                String fileName = ir.document(hits.documentID(i)).getValues(
-                                    DocumentBuilder.FIELD_NAME_IDENTIFIER)[0];
-
-                                log.debug(hits.score(i) + ": \t" + fileName);
-                                if (hits.score(i) < 10 && !file.toAbsolutePath().toString()
-                                    .equals(fileName)) {
-                                    picture.setDuplicate(hits.score(i) + ": \t" + fileName);
-                                }
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        pictureService.save(picture);
-                    }
-                );
-        } catch (IOException e) {
-            log.error("Something happens when we were saving pictures", e.getMessage());
-        }
+//        try (Stream<Path> paths = Files.walk(Paths.get(path))) {
+//            paths
+//                .filter(Files::isRegularFile)
+//                .filter(this::isImage)
+//                .forEach(file -> {
+//                        Picture picture = new Picture()
+//                            .name(file.getFileName().toString())
+//                            .path(file.toAbsolutePath().toString())
+//                            .setSize(Long.toString(new File(file.toString()).length()));
+//                        // use ParallelIndexer to index all photos from args[0] into "index" ... use 6 threads (actually 7 with the I/O thread).
+//                        IndexReader ir;
+//                        try {
+//                            ir = DirectoryReader.open(FSDirectory.open(Paths.get("index")));
+//
+//                            ImageSearcher searcher = new GenericFastImageSearcher(30, CEDD.class);
+//
+//                            BufferedImage img = ImageIO.read(file.toFile());
+//                            // searching with a image file ...
+//                            ImageSearchHits hits = searcher.search(img, ir);
+//                            // searching with a Lucene document instance ...
+////        ImageSearchHits hits = searcher.search(ir.document(0), ir);
+//                            picture.setDuplicate("no duplicates");
+//                            for (int i = 0; i < hits.length(); i++) {
+//                                String fileName = ir.document(hits.documentID(i)).getValues(
+//                                    DocumentBuilder.FIELD_NAME_IDENTIFIER)[0];
+//
+//                                log.debug(hits.score(i) + ": \t" + fileName);
+//                                if (hits.score(i) < 10 && !file.toAbsolutePath().toString()
+//                                    .equals(fileName)) {
+//                                    picture.setDuplicate(hits.score(i) + ": \t" + fileName);
+//                                }
+//                            }
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        pictureService.save(picture);
+//                    }
+//                );
+//        } catch (IOException e) {
+//            log.error("Something happens when we were saving pictures", e.getMessage());
+//        }
     }
 
     private boolean isImage(Path path) {

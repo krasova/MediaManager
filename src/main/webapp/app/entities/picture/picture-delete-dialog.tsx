@@ -2,14 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import { ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IPicture } from 'app/shared/model/picture.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './picture.reducer';
 
-export interface IPictureDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: number }> {}
+export interface IPictureDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export class PictureDeleteDialog extends React.Component<IPictureDeleteDialogProps> {
   componentDidMount() {

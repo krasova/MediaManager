@@ -2,18 +2,24 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const path = require('path');
 
 const utils = require('./utils.js');
 
 const getTsLoaderRule = env => {
   const rules = [
-    { loader: 'cache-loader' },
     {
-        loader: 'thread-loader',
-        options: {
-            // there should be 1 cpu for the fork-ts-checker-webpack-plugin
-            workers: require('os').cpus().length - 1
-        }
+      loader: 'cache-loader',
+      options: {
+        cacheDirectory: path.resolve('target/cache-loader')
+      }
+    },
+    {
+      loader: 'thread-loader',
+      options: {
+        // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+        workers: require('os').cpus().length - 1
+      }
     },
     {
       loader: 'ts-loader',
@@ -48,11 +54,16 @@ module.exports = options => ({
         test: /\.tsx?$/,
         use: getTsLoaderRule(options.env),
         include: [utils.root('./src/main/webapp/app')],
-        exclude: ['node_modules']
+        exclude: [utils.root('node_modules')]
       },
       {
         test: /\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/i,
-        loaders: ['file-loader?hash=sha512&digest=hex&name=content/[hash].[ext]']
+        loader: 'file-loader',
+        options: {
+          digest: 'hex',
+          hash: 'sha512',
+          name: 'content/[hash].[ext]'
+        }
       },
       {
         enforce: 'pre',
@@ -62,8 +73,8 @@ module.exports = options => ({
       {
         test: /\.tsx?$/,
         enforce: 'pre',
-        loaders: 'tslint-loader',
-        exclude: ['node_modules']
+        loader: 'tslint-loader',
+        exclude: [utils.root('node_modules')]
       }
     ]
   },

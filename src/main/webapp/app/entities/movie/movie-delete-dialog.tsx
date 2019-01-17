@@ -2,14 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import { ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { IMovie } from 'app/shared/model/movie.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './movie.reducer';
 
-export interface IMovieDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: number }> {}
+export interface IMovieDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export class MovieDeleteDialog extends React.Component<IMovieDeleteDialogProps> {
   componentDidMount() {

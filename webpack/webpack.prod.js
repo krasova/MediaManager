@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const path = require('path');
@@ -31,7 +31,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         loader: 'stripcomment-loader'
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.css$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -39,21 +39,19 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
               publicPath: '../'
             }
           },
-          'css-loader',
-          'postcss-loader',
-          'sass-loader'
+          'css-loader'
         ]
-      },
+      }
     ]
   },
   optimization: {
     runtimeChunk: false,
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
         parallel: true,
         // sourceMap: true, // Enable source maps. Please note that this will slow down the build
-        uglifyOptions: {
+        terserOptions: {
           beautify: false,
           comments: false,
           compress: {

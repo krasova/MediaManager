@@ -1,4 +1,4 @@
-import './password-strength-bar.scss';
+import './password-strength-bar.css';
 
 import React from 'react';
 

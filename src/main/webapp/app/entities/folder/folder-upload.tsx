@@ -3,18 +3,12 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-// tslint:disable-next-line:no-unused-variable
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { getEntity, uploadEntity, reset } from './folder.reducer';
-import { IFolder } from 'app/shared/model/folder.model';
-// tslint:disable-next-line:no-unused-variable
-import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
-import { keysToValues } from 'app/shared/util/entity-utils';
 
-export interface IFolderUploadProps extends StateProps, DispatchProps, RouteComponentProps<{ id: number }> {}
+export interface IFolderUploadProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export interface IFolderUploadState {
   isNew: boolean;

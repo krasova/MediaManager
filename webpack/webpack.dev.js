@@ -27,9 +27,9 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
   module: {
     rules: [
       {
-        test: /\.(sa|sc|c)ss$/,
-        loaders: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
-      },
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
     ]
   },
   devServer: {
@@ -46,27 +46,36 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
         '/h2-console',
         '/auth'
       ],
-      target: 'http://127.0.0.1:8080',
+      target: `http${options.tls ? 's' : ''}://127.0.0.1:8080`,
       secure: false,
+      changeOrigin: options.tls,
       headers: { host: 'localhost:9000' }
     }],
     watchOptions: {
       ignored: /node_modules/
     }
   },
+  stats: process.env.JHI_DISABLE_WEBPACK_LOGS ? 'none' : options.stats,
   plugins: [
-    new SimpleProgressWebpackPlugin({
-        format: options.stats === 'minimal' ? 'compact' : 'expanded'
-    }),
+    process.env.JHI_DISABLE_WEBPACK_LOGS
+      ? null
+      : new SimpleProgressWebpackPlugin({
+          format: options.stats === 'minimal' ? 'compact' : 'expanded'
+        }),
     new FriendlyErrorsWebpackPlugin(),
     new BrowserSyncPlugin({
       host: 'localhost',
       port: 9000,
       proxy: {
         target: 'http://localhost:9060'
+      },
+      socket: {
+        clients: {
+          heartbeatTimeout: 60000
+        }
       }
     }, {
-        reload: false
+      reload: false
     }),
     new webpack.HotModuleReplacementPlugin(),
     new writeFilePlugin(),
@@ -77,5 +86,5 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
       title: 'JHipster',
       contentImage: path.join(__dirname, 'logo-jhipster.png')
     })
-  ]
+  ].filter(Boolean)
 });
